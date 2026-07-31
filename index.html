@@ -1,0 +1,844 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>作品台</title>
+    <meta
+      name="description"
+      content="陈红的线上作品入口工作台，集中管理已部署的网页作品链接。"
+    />
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070912;
+        --panel: rgba(11, 16, 28, 0.78);
+        --panel-strong: rgba(12, 18, 32, 0.94);
+        --line: rgba(112, 241, 223, 0.2);
+        --line-strong: rgba(112, 241, 223, 0.42);
+        --text: #f5f7fb;
+        --muted: #9aa4b6;
+        --faint: #697388;
+        --cyan: #22f2e5;
+        --green: #68f08d;
+        --violet: #a970ff;
+        --amber: #ffd166;
+        --coral: #ff7b8a;
+        --radius: 8px;
+        --shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        min-height: 100%;
+        background: var(--bg);
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--text);
+        overflow-x: hidden;
+        background:
+          linear-gradient(rgba(43, 255, 224, 0.045) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(43, 255, 224, 0.045) 1px, transparent 1px),
+          radial-gradient(circle at 86% 16%, rgba(169, 112, 255, 0.16), transparent 28%),
+          radial-gradient(circle at 10% 78%, rgba(34, 242, 229, 0.13), transparent 24%),
+          #070912;
+        background-size:
+          52px 52px,
+          52px 52px,
+          auto,
+          auto,
+          auto;
+      }
+
+      button,
+      input,
+      a {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      #network {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        width: min(1240px, calc(100% - 40px));
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 36px 0 44px;
+      }
+
+      .shell {
+        min-height: calc(100vh - 80px);
+        border: 1px solid rgba(112, 241, 223, 0.18);
+        border-radius: 18px;
+        background: linear-gradient(145deg, rgba(7, 9, 18, 0.94), rgba(16, 12, 32, 0.88));
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 76px;
+        padding: 0 28px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(7, 9, 18, 0.7);
+        backdrop-filter: blur(16px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border: 1px solid rgba(34, 242, 229, 0.52);
+        border-radius: 8px;
+        color: var(--cyan);
+        background: rgba(34, 242, 229, 0.1);
+        box-shadow: 0 0 24px rgba(34, 242, 229, 0.2);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        letter-spacing: 0.06em;
+      }
+
+      .brand-title {
+        margin: 0;
+        font-size: 22px;
+        line-height: 1.1;
+      }
+
+      .brand-subtitle {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .top-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 34px;
+        padding: 0 12px;
+        border: 1px solid rgba(104, 240, 141, 0.34);
+        border-radius: 999px;
+        color: #d9ffe3;
+        background: rgba(104, 240, 141, 0.09);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .status-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 12px rgba(104, 240, 141, 0.9);
+      }
+
+      .content {
+        padding: 30px;
+      }
+
+      .command-row {
+        display: grid;
+        grid-template-columns: minmax(260px, 1fr) auto;
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 54px;
+        padding: 0 16px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.045);
+      }
+
+      .search-box svg {
+        width: 19px;
+        height: 19px;
+        flex: 0 0 auto;
+        color: var(--muted);
+      }
+
+      .search-box input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        color: var(--text);
+        background: transparent;
+        font-size: 16px;
+      }
+
+      .search-box input::placeholder {
+        color: var(--faint);
+      }
+
+      .launch-all {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        min-height: 54px;
+        padding: 0 18px;
+        border: 1px solid rgba(34, 242, 229, 0.44);
+        border-radius: var(--radius);
+        color: #051015;
+        background: linear-gradient(135deg, var(--cyan), #6af4a4);
+        cursor: pointer;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .launch-all:focus-visible,
+      .filter-button:focus-visible,
+      .copy-button:focus-visible,
+      .open-button:focus-visible {
+        outline: 3px solid rgba(34, 242, 229, 0.42);
+        outline-offset: 2px;
+      }
+
+      .overview {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .metric {
+        min-height: 90px;
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 12px;
+        font-size: 28px;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .filters {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 26px 0 20px;
+      }
+
+      .filter-button {
+        min-height: 40px;
+        padding: 0 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.045);
+        cursor: pointer;
+      }
+
+      .filter-button[aria-pressed="true"] {
+        border-color: rgba(34, 242, 229, 0.5);
+        color: var(--text);
+        background: rgba(34, 242, 229, 0.12);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 0 0 14px;
+        padding-top: 6px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .section-head p {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .result-count {
+        color: var(--faint);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .works-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .work-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 266px;
+        padding: 20px;
+        border: 1px solid rgba(112, 241, 223, 0.18);
+        border-radius: var(--radius);
+        background:
+          linear-gradient(135deg, rgba(34, 242, 229, 0.08), transparent 45%),
+          rgba(3, 6, 14, 0.72);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+      }
+
+      .work-card[data-accent="violet"] {
+        border-color: rgba(169, 112, 255, 0.28);
+        background:
+          linear-gradient(135deg, rgba(169, 112, 255, 0.1), transparent 46%),
+          rgba(3, 6, 14, 0.72);
+      }
+
+      .work-card[data-accent="green"] {
+        border-color: rgba(104, 240, 141, 0.26);
+        background:
+          linear-gradient(135deg, rgba(104, 240, 141, 0.1), transparent 46%),
+          rgba(3, 6, 14, 0.72);
+      }
+
+      .work-card[data-accent="amber"] {
+        border-color: rgba(255, 209, 102, 0.26);
+        background:
+          linear-gradient(135deg, rgba(255, 209, 102, 0.1), transparent 46%),
+          rgba(3, 6, 14, 0.72);
+      }
+
+      .work-card[data-accent="coral"] {
+        border-color: rgba(255, 123, 138, 0.28);
+        background:
+          linear-gradient(135deg, rgba(255, 123, 138, 0.1), transparent 46%),
+          rgba(3, 6, 14, 0.72);
+      }
+
+      .work-top {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .work-code {
+        color: var(--cyan);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .work-category {
+        max-width: 140px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .work-card h3 {
+        margin: 18px 0 0;
+        font-size: 23px;
+        line-height: 1.2;
+        letter-spacing: 0;
+      }
+
+      .work-card p {
+        margin: 12px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .url-line {
+        display: block;
+        margin-top: auto;
+        padding-top: 18px;
+        color: var(--faint);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 12px;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .open-button,
+      .copy-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 40px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        font-weight: 700;
+      }
+
+      .open-button {
+        border: 1px solid rgba(34, 242, 229, 0.36);
+        color: #061016;
+        background: var(--cyan);
+      }
+
+      .copy-button {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .empty {
+        display: none;
+        min-height: 180px;
+        place-items: center;
+        border: 1px dashed rgba(255, 255, 255, 0.16);
+        border-radius: var(--radius);
+        color: var(--muted);
+      }
+
+      .empty.is-visible {
+        display: grid;
+      }
+
+      .toast {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 5;
+        transform: translateY(18px);
+        opacity: 0;
+        padding: 12px 16px;
+        border: 1px solid rgba(104, 240, 141, 0.34);
+        border-radius: var(--radius);
+        color: #e8ffef;
+        background: rgba(8, 14, 24, 0.94);
+        box-shadow: 0 16px 45px rgba(0, 0, 0, 0.36);
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+
+      .toast.is-visible {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      @media (max-width: 980px) {
+        .overview,
+        .works-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .command-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .page {
+          width: 100%;
+          padding: 0;
+        }
+
+        .shell {
+          min-height: 100vh;
+          border: 0;
+          border-radius: 0;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 22px 18px 18px;
+        }
+
+        .top-meta {
+          justify-content: flex-start;
+        }
+
+        .content {
+          padding: 20px 16px 28px;
+        }
+
+        .overview,
+        .works-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .work-card {
+          min-height: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="network" aria-hidden="true"></canvas>
+    <div class="page">
+      <div class="shell">
+        <header class="topbar">
+          <div class="brand">
+            <div class="brand-mark">AI</div>
+            <div>
+              <h1 class="brand-title">作品台</h1>
+              <p class="brand-subtitle">线上作品入口与发布地址集中台</p>
+            </div>
+          </div>
+          <div class="top-meta">
+            <span class="status-pill"><span class="status-dot"></span>7 个作品在线</span>
+            <span class="status-pill">118.25.109.46</span>
+          </div>
+        </header>
+
+        <main class="content">
+          <div class="command-row">
+            <label class="search-box" aria-label="搜索作品">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="m21 21-4.35-4.35M10.8 18.2a7.4 7.4 0 1 1 0-14.8 7.4 7.4 0 0 1 0 14.8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+              </svg>
+              <input id="searchInput" type="search" placeholder="搜索作品名称、类型或链接" autocomplete="off" />
+            </label>
+            <button class="launch-all" id="openVisible" type="button">
+              <span>打开当前结果</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+
+          <section class="overview" aria-label="作品概览">
+            <div class="metric">
+              <span>总作品</span>
+              <strong id="totalCount">7</strong>
+            </div>
+            <div class="metric">
+              <span>应用体验</span>
+              <strong>3</strong>
+            </div>
+            <div class="metric">
+              <span>游戏互动</span>
+              <strong>2</strong>
+            </div>
+            <div class="metric">
+              <span>工具后台</span>
+              <strong>2</strong>
+            </div>
+          </section>
+
+          <nav class="filters" aria-label="作品分类筛选">
+            <button class="filter-button" type="button" data-filter="全部" aria-pressed="true">全部</button>
+            <button class="filter-button" type="button" data-filter="应用体验" aria-pressed="false">应用体验</button>
+            <button class="filter-button" type="button" data-filter="游戏互动" aria-pressed="false">游戏互动</button>
+            <button class="filter-button" type="button" data-filter="工具后台" aria-pressed="false">工具后台</button>
+            <button class="filter-button" type="button" data-filter="AI探索" aria-pressed="false">AI探索</button>
+          </nav>
+
+          <section class="section-head">
+            <div>
+              <h2>在线作品</h2>
+              <p>所有链接均指向腾讯云当前线上版本</p>
+            </div>
+            <div class="result-count" id="resultCount">7 ITEMS</div>
+          </section>
+
+          <section class="works-grid" id="worksGrid" aria-live="polite"></section>
+          <div class="empty" id="emptyState">没有匹配的作品</div>
+        </main>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite">链接已复制</div>
+
+    <script>
+      const works = [
+        {
+          code: "WORK_M1",
+          title: "春日菜谱下单小程序",
+          category: "应用体验",
+          accent: "green",
+          description: "移动端菜谱浏览与下单流程，覆盖首页选菜、订单提交和轻量 App 体验。",
+          url: "http://118.25.109.46/chunri-caipu-xiadan-xiaochengxu/"
+        },
+        {
+          code: "WORK_G1",
+          title: "社畜反击战",
+          category: "游戏互动",
+          accent: "violet",
+          description: "竖屏 HTML5 Boss Rush 小游戏，包含移动、跳跃、连招和大招释放。",
+          url: "http://118.25.109.46/shechu-fanji-zhan/"
+        },
+        {
+          code: "WORK_M2",
+          title: "影视 App",
+          category: "应用体验",
+          accent: "cyan",
+          description: "影视内容浏览、详情查看与社区互动流程的移动端交互 Demo。",
+          url: "http://118.25.109.46/yingshi-app-jiaohu/"
+        },
+        {
+          code: "WORK_T1",
+          title: "优化编辑器",
+          category: "工具后台",
+          accent: "amber",
+          description: "蓝白新版编辑器的优化预览版本，聚焦更清晰的编辑体验与工具型质感。",
+          url: "http://118.25.109.46/lanbai-xinban-bianjiqi/"
+        },
+        {
+          code: "WORK_D1",
+          title: "监测面板",
+          category: "工具后台",
+          accent: "coral",
+          description: "股票监测、回测、资金查询和每日感悟等模块的综合监测台。",
+          url: "http://118.25.109.46/monitor-dashboard/"
+        },
+        {
+          code: "WORK_A1",
+          title: "AI编辑器",
+          category: "AI探索",
+          accent: "violet",
+          description: "面向小游戏生成与编辑的 AI 工具型 Demo，支持多种玩法预览。",
+          url: "http://118.25.109.46/ai-editor/"
+        },
+        {
+          code: "WORK_G2",
+          title: "游戏 App",
+          category: "游戏互动",
+          accent: "cyan",
+          description: "游戏应用方案展示页，集中呈现游戏产品体验和 App 化包装。",
+          url: "http://118.25.109.46/youxi-app/"
+        }
+      ];
+
+      const grid = document.getElementById("worksGrid");
+      const searchInput = document.getElementById("searchInput");
+      const resultCount = document.getElementById("resultCount");
+      const emptyState = document.getElementById("emptyState");
+      const toast = document.getElementById("toast");
+      let currentFilter = "全部";
+      let toastTimer = 0;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function getFilteredWorks() {
+        const keyword = searchInput.value.trim().toLowerCase();
+        return works.filter((work) => {
+          const filterMatch = currentFilter === "全部" || work.category === currentFilter;
+          const haystack = `${work.title} ${work.category} ${work.description} ${work.url}`.toLowerCase();
+          return filterMatch && (!keyword || haystack.includes(keyword));
+        });
+      }
+
+      function renderWorks() {
+        const visibleWorks = getFilteredWorks();
+        resultCount.textContent = `${visibleWorks.length} ITEMS`;
+        emptyState.classList.toggle("is-visible", visibleWorks.length === 0);
+        grid.innerHTML = visibleWorks
+          .map(
+            (work) => `
+              <article class="work-card" data-accent="${escapeHtml(work.accent)}">
+                <div class="work-top">
+                  <span class="work-code">${escapeHtml(work.code)}</span>
+                  <span class="work-category">${escapeHtml(work.category)}</span>
+                </div>
+                <h3>${escapeHtml(work.title)}</h3>
+                <p>${escapeHtml(work.description)}</p>
+                <span class="url-line" title="${escapeHtml(work.url)}">${escapeHtml(work.url)}</span>
+                <div class="actions">
+                  <a class="open-button" href="${escapeHtml(work.url)}" target="_blank" rel="noopener noreferrer">
+                    打开 <span aria-hidden="true">↗</span>
+                  </a>
+                  <button class="copy-button" type="button" data-url="${escapeHtml(work.url)}">
+                    复制 <span aria-hidden="true">⧉</span>
+                  </button>
+                </div>
+              </article>
+            `
+          )
+          .join("");
+      }
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 1700);
+      }
+
+      async function copyLink(url) {
+        try {
+          await navigator.clipboard.writeText(url);
+          showToast("链接已复制");
+        } catch (error) {
+          const helper = document.createElement("textarea");
+          helper.value = url;
+          helper.setAttribute("readonly", "");
+          helper.style.position = "fixed";
+          helper.style.left = "-999px";
+          document.body.appendChild(helper);
+          helper.select();
+          document.execCommand("copy");
+          helper.remove();
+          showToast("链接已复制");
+        }
+      }
+
+      document.querySelectorAll(".filter-button").forEach((button) => {
+        button.addEventListener("click", () => {
+          currentFilter = button.dataset.filter;
+          document.querySelectorAll(".filter-button").forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === button));
+          });
+          renderWorks();
+        });
+      });
+
+      searchInput.addEventListener("input", renderWorks);
+
+      grid.addEventListener("click", (event) => {
+        const copyButton = event.target.closest(".copy-button");
+        if (!copyButton) return;
+        copyLink(copyButton.dataset.url);
+      });
+
+      document.getElementById("openVisible").addEventListener("click", () => {
+        const visibleWorks = getFilteredWorks();
+        visibleWorks.forEach((work) => window.open(work.url, "_blank", "noopener,noreferrer"));
+      });
+
+      renderWorks();
+
+      const canvas = document.getElementById("network");
+      const ctx = canvas.getContext("2d");
+      const points = [];
+      const totalPoints = 54;
+
+      function resizeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(window.innerWidth * ratio);
+        canvas.height = Math.floor(window.innerHeight * ratio);
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerHeight}px`;
+        ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      }
+
+      function initPoints() {
+        points.length = 0;
+        for (let index = 0; index < totalPoints; index += 1) {
+          points.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 0.18,
+            vy: (Math.random() - 0.5) * 0.18
+          });
+        }
+      }
+
+      function tickNetwork() {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        for (const point of points) {
+          point.x += point.vx;
+          point.y += point.vy;
+          if (point.x < 0 || point.x > window.innerWidth) point.vx *= -1;
+          if (point.y < 0 || point.y > window.innerHeight) point.vy *= -1;
+
+          ctx.beginPath();
+          ctx.arc(point.x, point.y, 1.7, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(34, 242, 229, 0.5)";
+          ctx.fill();
+        }
+
+        for (let a = 0; a < points.length; a += 1) {
+          for (let b = a + 1; b < points.length; b += 1) {
+            const dx = points[a].x - points[b].x;
+            const dy = points[a].y - points[b].y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 145) {
+              ctx.beginPath();
+              ctx.moveTo(points[a].x, points[a].y);
+              ctx.lineTo(points[b].x, points[b].y);
+              ctx.strokeStyle = `rgba(34, 242, 229, ${0.14 * (1 - distance / 145)})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+
+        requestAnimationFrame(tickNetwork);
+      }
+
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        initPoints();
+      });
+      resizeCanvas();
+      initPoints();
+      tickNetwork();
+    </script>
+  </body>
+</html>
