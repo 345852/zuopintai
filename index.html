@@ -58,10 +58,12 @@
       .launch-all:hover:not(:disabled), .open-button:hover { filter: brightness(1.12); }
       .launch-all:disabled { opacity: .4; cursor: not-allowed; }
       .overview { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 2rem; margin-top: 3.375rem; }
-      .metric { position: relative; min-height: 9.25rem; padding: 2rem; border: 1px solid var(--line); border-radius: 2rem; background: linear-gradient(110deg, #0b1018, #0e121c); }
+      .metric { position: relative; display: block; width: 100%; min-width: 0; min-height: 9.25rem; padding: 2rem; border: 1px solid var(--line); border-radius: 2rem; background: linear-gradient(110deg, #0b1018, #0e121c); color: var(--text); text-align: left; appearance: none; transition: border-color 150ms; }
+      .metric:hover { border-color: rgba(22,201,154,.4); }
+      .metric[aria-pressed="true"] { border-color: rgba(22,201,154,.25); }
       .metric:nth-child(3) { background: linear-gradient(110deg, #0b0e18, #10111d); }
       .metric:nth-child(4) { background: linear-gradient(110deg, #0b1018, #11121a); }
-      .metric-label { color: var(--muted); font-size: 1.0625rem; font-weight: 700; line-height: 1.2; letter-spacing: .02em; }
+      .metric-label { display: block; color: var(--muted); font-size: 1.0625rem; font-weight: 700; line-height: 1.2; letter-spacing: .02em; }
       .metric-value { display: flex; align-items: baseline; gap: .75rem; margin-top: .625rem; }
       .metric-value strong { font-size: 3.125rem; line-height: 1; letter-spacing: -.03em; font-weight: 650; }
       .metric-value span { font-size: 1.1875rem; font-weight: 600; color: var(--green); }
@@ -187,10 +189,10 @@
             </label>
             <button class="launch-all" id="openVisible" type="button"><span>打开当前结果</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></button>
           </div>
-          <section class="overview" aria-label="作品概览"><div class="metric"><div class="metric-label">总作品 / TOTAL WORKS</div><div class="metric-value"><strong>7</strong><span>PROJECTS</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx=".5"/><path d="M12 4v16M4 12h16"/></svg></div>
-<div class="metric"><div class="metric-label">应用体验 / MOBILE & APP</div><div class="metric-value"><strong>3</strong><span>EXPERIENCES</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="1.5"/><path d="M6 5h12M6 18h12"/></svg></div>
-<div class="metric"><div class="metric-label">游戏互动 / GAME DESIGN</div><div class="metric-value"><strong>2</strong><span>INTERACTIVES</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 5h9a4 4 0 0 1 3.8 3l2.2 9a2.5 2.5 0 0 1-4.2 2.4L15 16H9l-3.3 3.4A2.5 2.5 0 0 1 1.5 17l2.2-9a4 4 0 0 1 3.8-3Z"/><path d="M7 8v5M4.5 10.5h5M15.5 9h.01M18 12h.01"/></svg></div>
-<div class="metric"><div class="metric-label">工具后台 / SYSTEM TOOLS</div><div class="metric-value"><strong>2</strong><span>DASHBOARDS</span></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 6-10 6L2 8l10-6Zm-10 12 10 6 10-6M2 18l10 6 10-6" transform="translate(0 -1)"/></svg></div></section>
+          <section class="overview" aria-label="作品概览"><button class="metric" type="button" data-filter="全部" aria-pressed="true" aria-controls="worksGrid" aria-label="显示全部作品"><span class="metric-label">总作品 / TOTAL WORKS</span><span class="metric-value"><strong>7</strong><span>PROJECTS</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx=".5"/><path d="M12 4v16M4 12h16"/></svg></button>
+<button class="metric" type="button" data-filter="应用体验" aria-pressed="false" aria-controls="worksGrid" aria-label="显示应用体验作品"><span class="metric-label">应用体验 / MOBILE & APP</span><span class="metric-value"><strong>2</strong><span>EXPERIENCES</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="1.5"/><path d="M6 5h12M6 18h12"/></svg></button>
+<button class="metric" type="button" data-filter="游戏互动" aria-pressed="false" aria-controls="worksGrid" aria-label="显示游戏互动作品"><span class="metric-label">游戏互动 / GAME DESIGN</span><span class="metric-value"><strong>2</strong><span>INTERACTIVES</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 5h9a4 4 0 0 1 3.8 3l2.2 9a2.5 2.5 0 0 1-4.2 2.4L15 16H9l-3.3 3.4A2.5 2.5 0 0 1 1.5 17l2.2-9a4 4 0 0 1 3.8-3Z"/><path d="M7 8v5M4.5 10.5h5M15.5 9h.01M18 12h.01"/></svg></button>
+<button class="metric" type="button" data-filter="工具后台" aria-pressed="false" aria-controls="worksGrid" aria-label="显示工具后台作品"><span class="metric-label">工具后台 / SYSTEM TOOLS</span><span class="metric-value"><strong>2</strong><span>DASHBOARDS</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 6-10 6L2 8l10-6Zm-10 12 10 6 10-6M2 18l10 6 10-6" transform="translate(0 -1)"/></svg></button></section>
           <nav class="filters" aria-label="作品分类筛选"><button class="filter-button" type="button" data-filter="全部" aria-pressed="true">全部</button>
 <button class="filter-button" type="button" data-filter="应用体验" aria-pressed="false">应用体验</button>
 <button class="filter-button" type="button" data-filter="游戏互动" aria-pressed="false">游戏互动</button>
@@ -355,14 +357,23 @@
         }
       }
 
-      document.querySelectorAll(".filter-button").forEach((button) => {
-        button.addEventListener("click", () => {
-          currentFilter = button.dataset.filter;
-          document.querySelectorAll(".filter-button").forEach((item) => {
-            item.setAttribute("aria-pressed", String(item === button));
-          });
-          renderWorks();
+      const filterControls = document.querySelectorAll(".filter-button, .metric[data-filter]");
+
+      function setFilter(filter) {
+        currentFilter = filter;
+        filterControls.forEach((item) => {
+          item.setAttribute("aria-pressed", String(item.dataset.filter === filter));
         });
+        renderWorks();
+      }
+
+      document.querySelectorAll(".metric[data-filter]").forEach((button) => {
+        const count = works.filter((work) => button.dataset.filter === "全部" || work.category === button.dataset.filter).length;
+        button.querySelector(".metric-value strong").textContent = count;
+      });
+
+      filterControls.forEach((button) => {
+        button.addEventListener("click", () => setFilter(button.dataset.filter));
       });
 
       searchInput.addEventListener("input", renderWorks);
@@ -378,9 +389,7 @@
         visibleWorks.forEach((work) => window.open(work.url, "_blank", "noopener,noreferrer"));
       });
 
-      renderWorks();
-
-
+      setFilter("全部");
     </script>
   </body>
 </html>
