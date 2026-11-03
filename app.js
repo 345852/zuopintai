@@ -58,10 +58,8 @@ const clearSearch = document.getElementById('clearSearch');
 let currentFilter = '全部';
 let toastTimer = 0;
 
-document.getElementById('categoryNav').innerHTML = categories.map(c => `<button class="category-button" type="button" data-filter="${c.name}" aria-pressed="${c.name==='全部'}" aria-controls="worksGrid">${icon(c.icon)}<span>${c.label}</span><span class="count">${works.filter(w=>c.name==='全部'||w.category===c.name).length}</span></button>`).join('');
-document.getElementById('quickFilters').innerHTML = categories.map(c => `<button class="filter-chip" type="button" data-filter="${c.name}" aria-pressed="${c.name==='全部'}" aria-controls="worksGrid">${icon(c.icon)}${c.label}</button>`).join('');
-document.getElementById('quickLinks').innerHTML = works.map(w => `<a class="quick-link" href="${escapeHtml(w.url)}" target="_blank" rel="noopener noreferrer" style="--project-color:${visuals[w.code].color}" aria-label="打开${escapeHtml(w.title)}（新标签页）"><i class="project-dot" aria-hidden="true"></i><span>${escapeHtml(w.title)}</span>${icon('arrow')}</a>`).join('');
-document.getElementById('totalHint').textContent = `${works.length} 个作品，等你发现`;
+document.getElementById('quickFilters').innerHTML = categories.map(c => `<button class="filter-tab" type="button" data-filter="${c.name}" aria-pressed="${c.name==='全部'}" aria-controls="worksGrid"><span>${c.label}</span><span class="filter-count">${works.filter(w=>c.name==='全部'||w.category===c.name).length}</span></button>`).join('');
+document.getElementById('collectionCount').textContent = `${works.length} 个作品 · ${new Set(works.map(w=>w.category)).size} 个类别`;
 
 function getFilteredWorks() {
   const keyword = searchInput.value.trim().toLowerCase();
@@ -84,7 +82,7 @@ function renderWorks() {
       <div class="work-body"><div class="work-meta"><span class="category-tag"><i aria-hidden="true"></i>${escapeHtml(w.category)}</span><span class="work-code">${escapeHtml(w.code)}</span></div>
         <h3 class="work-title"><a href="${escapeHtml(w.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(w.title)}</a></h3>
         <p class="work-description">${escapeHtml(w.description)}</p>
-        <div class="work-bottom"><a class="open-link" href="${escapeHtml(w.url)}" target="_blank" rel="noopener noreferrer" aria-label="探索${escapeHtml(w.title)}（新标签页）">探索作品 ${icon('arrow')}</a><button class="copy-button" type="button" data-url="${escapeHtml(w.url)}" aria-label="复制${escapeHtml(w.title)}链接" title="${escapeHtml(w.url)}">${icon('copy')}复制链接</button></div>
+        <div class="work-bottom"><a class="open-link" href="${escapeHtml(w.url)}" target="_blank" rel="noopener noreferrer" aria-label="打开${escapeHtml(w.title)}（新标签页）">查看作品 ${icon('arrow')}</a><button class="copy-button" type="button" data-url="${escapeHtml(w.url)}" aria-label="复制${escapeHtml(w.title)}链接" title="${escapeHtml(w.url)}">${icon('copy')}复制链接</button></div>
       </div></article>`;
   }).join('');
 }

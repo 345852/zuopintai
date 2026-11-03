@@ -4,48 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1e1f20">
-  <meta name="description" content="陈红的个人作品集。探索应用体验、游戏互动、实用工具与 AI 创作，让每一个想法都有一个可以打开的入口。">
-  <title>作品台 · 陈红的创作空间</title>
+  <meta name="description" content="陈红的个人作品集。浏览应用体验、游戏互动、实用工具与 AI 创作。">
+  <title>作品台 · 陈红的作品集</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23262728'/%3E%3Cpath d='M18 17h11v11H18zm17 0h11v11H35zM18 34h11v11H18zm17 0h11v11H35z' fill='%23d5e6cc'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="./styles.css?v=20261030">
-  <script defer src="./works.js?v=20261030"></script>
-  <script defer src="./app.js?v=20261030"></script>
+  <link rel="stylesheet" href="./styles.css?v=20261103">
+  <script defer src="./works.js?v=20261103"></script>
+  <script defer src="./app.js?v=20261103"></script>
 </head>
 <body>
   <a class="skip-link" href="#projects">跳到作品列表</a>
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="作品台首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-name">作品台</span><span class="brand-badge">PORTFOLIO</span></a>
+  <header class="topbar page-width">
+    <a class="brand" href="./" aria-label="作品台首页"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-name">作品台</span><span class="brand-label">PORTFOLIO</span></a>
     <nav class="header-links" aria-label="网站导航"><a class="portfolio-nav" href="#projects">我的作品</a><a href="http://118.25.109.46/">返回首页 <span data-icon="arrow"></span></a><span class="avatar" aria-label="陈红">CH</span></nav>
   </header>
-  <div class="workspace">
-    <aside class="sidebar" aria-label="作品导航">
-      <div class="sidebar-heading"><span data-icon="grid"></span>我的创作空间</div>
-      <nav id="categoryNav" class="category-nav" aria-label="作品分类"></nav>
-      <div class="sidebar-rule"></div>
-      <p class="section-label">QUICK ACCESS / 快速访问</p>
-      <div class="quick-links" id="quickLinks"></div>
-      <div class="sidebar-bottom"><div class="owner"><span class="avatar" aria-hidden="true">CH</span><div class="owner-info"><strong>陈红</strong><span>个人作品与创作实验</span></div><span class="tiny-dot" aria-hidden="true"></span></div></div>
-    </aside>
-    <main class="canvas">
-      <section class="hero" aria-labelledby="heroTitle">
-        <div class="eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span>A LITTLE SPACE FOR BIG IDEAS</div>
-        <h1 id="heroTitle">想法，在这里<span>成形。</span></h1>
-        <p class="hero-description">一些关于设计、代码与好奇心的实践。<br>每一个作品，都是一次新的探索。</p>
-        <form class="search-panel" id="searchForm" role="search">
-          <div class="input-row"><span data-icon="search" aria-hidden="true"></span><label class="sr-only" for="searchInput">搜索作品名称、类型、描述或链接</label><input class="search-input" id="searchInput" type="search" placeholder="今天，想探索什么作品？" autocomplete="off" aria-controls="worksGrid" aria-describedby="searchHint"><button class="clear-search" id="clearSearch" type="button" aria-label="清空搜索" hidden><span data-icon="close"></span></button></div>
-          <div class="search-footer"><div class="search-hint" id="searchHint"><span data-icon="spark"></span><span id="totalHint">7 个作品，等你发现</span><span class="shortcut">· 按 <kbd>/</kbd> 搜索</span></div><button class="search-submit" type="submit">探索作品 <span data-icon="arrow"></span></button></div>
+  <main class="page-width">
+    <section class="portfolio-intro" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow">CHEN HONG / SELECTED WORKS</p>
+        <h1 id="pageTitle">设计、代码<span>与创作。</span></h1>
+        <p class="intro-description">从移动应用到互动游戏，记录每一个想法的落地。</p>
+      </div>
+      <p class="collection-note"><span class="status-dot" aria-hidden="true"></span><span id="collectionCount">7 个作品 · 4 个类别</span></p>
+    </section>
+    <section class="projects" id="projects" aria-labelledby="worksHeading">
+      <div class="collection-controls">
+        <nav class="category-filters" id="quickFilters" aria-label="作品分类"></nav>
+        <form class="search-form" id="searchForm" role="search">
+          <span data-icon="search" aria-hidden="true"></span>
+          <label class="sr-only" for="searchInput">搜索作品名称、类型、描述或链接</label>
+          <input id="searchInput" type="search" placeholder="搜索作品…" autocomplete="off" aria-controls="worksGrid" aria-describedby="searchHint">
+          <span class="sr-only" id="searchHint">输入关键词筛选作品；按斜杠聚焦搜索，按 Escape 清空。</span>
+          <kbd class="search-shortcut" aria-hidden="true">/</kbd>
+          <button class="clear-search" id="clearSearch" type="button" aria-label="清空搜索" hidden><span data-icon="close"></span></button>
         </form>
-        <nav class="quick-filters" id="quickFilters" aria-label="快捷分类筛选"></nav>
-      </section>
-      <section class="projects" id="projects" aria-labelledby="worksHeading">
-        <div class="projects-toolbar"><div class="projects-heading"><h2 id="worksHeading">全部作品</h2><span class="result-count" id="resultCount" role="status" aria-live="polite" aria-atomic="true">7</span></div><div class="toolbar-actions"><button class="open-visible" id="openVisible" type="button"><span>打开当前结果</span><span data-icon="arrow"></span></button><div class="view-switch" role="group" aria-label="作品展示方式"><button class="view-button" data-view="grid" type="button" aria-label="网格视图" aria-pressed="true" aria-controls="worksGrid"><span data-icon="grid"></span></button><button class="view-button" data-view="list" type="button" aria-label="列表视图" aria-pressed="false" aria-controls="worksGrid"><span data-icon="list"></span></button></div></div></div>
-        <div class="works-grid" id="worksGrid"></div>
-        <div class="empty-state" id="emptyState" hidden><span data-icon="search"></span><h3>暂时没有找到这个作品</h3><p>试试其他关键词，或回到全部作品继续探索。</p><button class="reset-button" id="resetFilters" type="button">查看全部作品</button></div>
-        <noscript><p>请启用 JavaScript 以使用搜索与分类，也可直接打开作品：</p><ul><li><a href="http://118.25.109.46/chunri-caipu-xiadan-xiaochengxu/">春日菜谱下单小程序</a></li><li><a href="http://118.25.109.46/shechu-fanji-zhan/">社畜反击战</a></li><li><a href="http://118.25.109.46/yingshi-app-jiaohu/">影视 App</a></li><li><a href="http://118.25.109.46/lanbai-xinban-bianjiqi/">优化编辑器</a></li><li><a href="http://118.25.109.46/monitor-dashboard/">监测面板</a></li><li><a href="http://118.25.109.46/ai-editor/">AI编辑器</a></li><li><a href="http://118.25.109.46/youxi-app/">游戏 App</a></li></ul></noscript>
-      </section>
-      <footer class="page-footer"><span><span data-icon="spark"></span>保持好奇，持续创造。</span><span>陈红的作品集 · 设计与代码的日常</span></footer>
-    </main>
-  </div>
+      </div>
+      <div class="projects-toolbar">
+        <div class="projects-heading"><h2 id="worksHeading">全部作品</h2><span class="result-count" id="resultCount" role="status" aria-live="polite" aria-atomic="true">7</span></div>
+        <div class="toolbar-actions">
+          <button class="open-visible" id="openVisible" type="button"><span>打开当前结果</span><span data-icon="arrow"></span></button>
+          <div class="view-switch" role="group" aria-label="作品展示方式"><button class="view-button" data-view="grid" type="button" aria-label="网格视图" aria-pressed="true" aria-controls="worksGrid"><span data-icon="grid"></span></button><button class="view-button" data-view="list" type="button" aria-label="列表视图" aria-pressed="false" aria-controls="worksGrid"><span data-icon="list"></span></button></div>
+        </div>
+      </div>
+      <div class="works-grid" id="worksGrid"></div>
+      <div class="empty-state" id="emptyState" hidden><span data-icon="search"></span><h3>没有找到相关作品</h3><p>试试其他关键词，或清除筛选查看全部作品。</p><button class="reset-button" id="resetFilters" type="button">查看全部作品</button></div>
+      <noscript><p>请启用 JavaScript 以使用搜索与分类，也可直接打开作品：</p><ul><li><a href="http://118.25.109.46/chunri-caipu-xiadan-xiaochengxu/">春日菜谱下单小程序</a></li><li><a href="http://118.25.109.46/shechu-fanji-zhan/">社畜反击战</a></li><li><a href="http://118.25.109.46/yingshi-app-jiaohu/">影视 App</a></li><li><a href="http://118.25.109.46/lanbai-xinban-bianjiqi/">优化编辑器</a></li><li><a href="http://118.25.109.46/monitor-dashboard/">监测面板</a></li><li><a href="http://118.25.109.46/ai-editor/">AI编辑器</a></li><li><a href="http://118.25.109.46/youxi-app/">游戏 App</a></li></ul></noscript>
+    </section>
+    <footer class="page-footer"><span>陈红的作品集</span><span>保持好奇，持续创造。<span class="footer-year">© 2026</span></span></footer>
+  </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
