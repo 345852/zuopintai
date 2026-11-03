@@ -1,6 +1,14 @@
 // Existing portfolio content and destinations, preserved from the live site.
 const works = [
         {
+          code: "WORK_G3",
+          title: "山寺 · 暂歇片刻",
+          category: "游戏互动",
+          accent: "green",
+          description: "以少林寺建筑为灵感的中文 3D 山寺，支持第三人称漫步、步步生莲、合掌礼佛与木鱼修习。",
+          url: "https://118.25.109.46/shansi/"
+        },
+        {
           code: "WORK_M1",
           title: "春日菜谱下单小程序",
           category: "应用体验",

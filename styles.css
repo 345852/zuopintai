@@ -87,6 +87,8 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 .work-preview { display: block; position: relative; aspect-ratio: 1.8; overflow: hidden; background: var(--cover); flex-shrink: 0; }
 .work-preview:focus-visible { outline-offset: -4px; outline-color: var(--ink); z-index: 2; }
 .preview-art { height: 100%; position: relative; overflow: hidden; isolation: isolate; }
+.project-screenshot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.work-card[data-code="WORK_G3"] .cover-index { z-index: 1; padding: 5px 8px; border-radius: 4px; color: #edf1e4; background: #293325c9; }
 .preview-art::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 0 0 50px #0000000d; }
 .cover-index { position: absolute; z-index: 2; top: 16px; left: 18px; font: 500 10px ui-monospace,SFMono-Regular,monospace; letter-spacing: 1px; color: var(--cover-ink); opacity: .85; }
 .preview-open { position: absolute; z-index: 4; right: 14px; bottom: 14px; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #191c1db8; color: #fff; opacity: 0; transform: translateY(4px); transition: opacity .18s, transform .18s; }

@@ -24,6 +24,7 @@ const categories = [
   {name:'AI探索', label:'AI 探索', icon:'spark'}
 ];
 const visuals = {
+  WORK_G3:{cover:'#bfc6af',ink:'#43523c',color:'#b7c49c',type:'temple'},
   WORK_M1:{cover:'#d9e5c9',ink:'#52643e',color:'#b6c99e',type:'recipe'},
   WORK_G1:{cover:'#b8a8d0',ink:'#4a3a62',color:'#c4aedc',type:'battle'},
   WORK_M2:{cover:'#b1c8cb',ink:'#34515b',color:'#b3ccd0',type:'film'},
@@ -35,8 +36,9 @@ const visuals = {
 function windowBar(label) {
   return `<div class="window-bar"><i></i><i></i><i></i><span>${label}</span></div>`;
 }
-// Decorative interface studies, not screenshots or live embedded apps.
+// Local project screenshots where available; otherwise decorative interface studies.
 function artwork(type) {
+  if (type === 'temple') return '<img class="project-screenshot" src="./assets/shansi-preview.png" alt="" width="1280" height="720" loading="lazy">';
   if (type === 'recipe') return '<div class="cover-caption">春日<br>食光<small>FRESH EVERY DAY</small></div><div class="mini-phone"><div class="mini-notch"></div><div class="mini-phone-title">今天，吃点新鲜的</div><div class="mini-sub">为每一餐添一点好心情</div><div class="mini-food"></div><div class="mini-lines"></div><div class="mini-pill">发现今日菜单</div></div><div class="mini-phone secondary"><div class="mini-notch"></div><div class="mini-phone-title">春日轻食</div><div class="mini-food small"></div><div class="mini-lines"></div><div class="mini-pill">加入我的菜单</div></div>';
   if (type === 'battle') return '<div class="mini-game-window"><div class="game-hud"><span>OFFICE FIGHTER</span><i></i></div><div class="game-city"></div><div class="game-floor"></div><div class="pixel-person"></div><span class="game-vs">VS</span><div class="pixel-person boss"></div><div class="game-key">MOVE / JUMP / ATTACK</div></div>';
   if (type === 'film') return '<div class="cover-caption film-caption">好故事，<br>不散场。<small>YOUR NEXT FAVORITE</small></div><div class="mini-phone film-phone"><div class="mini-notch"></div><div class="mini-phone-title">发现好电影</div><div class="film-poster"></div><div class="mini-sub">为你精选 · 每一帧都值得</div><div class="film-rows"><i></i><i></i><i></i></div></div>';
